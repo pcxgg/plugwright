@@ -84,8 +84,10 @@ export class GuiItemLocator {
      * Clicks the located item.
      * Retries until the item exists or times out.
      */
-    async click(options: { timeout?: number } = {}): Promise<void> {
-        const { timeout = 5000 } = options;
+    async click(options: { timeout?: number; rightClick?: boolean; shift?: boolean } = {}): Promise<void> {
+        const { timeout = 5000, rightClick = false, shift = false } = options;
+        const mouseButton = rightClick ? 1 : 0;
+        const mode = shift ? 1 : 0;
         const startTime = Date.now();
 
         for (;;) {
@@ -93,7 +95,7 @@ export class GuiItemLocator {
             if (currentGui) {
                 const item = currentGui._findItemInternal(this.predicate);
                 if (item) {
-                    await currentGui._clickItemInternal(this.predicate);
+                    await currentGui._clickItemInternal(this.predicate, mouseButton, mode);
                     return;
                 }
             }
@@ -397,21 +399,23 @@ class GuiWrapper {
     }
 
     /** @internal */
-    async _clickItemInternal(predicate: (item: ItemWrapper) => boolean): Promise<void> {
+    async _clickItemInternal(predicate: (item: ItemWrapper) => boolean, mouseButton: number = 0, mode: number = 0): Promise<void> {
         const item = this._findItemInternal(predicate);
         if (!item) {
             throw new Error(`[GUI] Failed to click: Item not found matching criteria in "${this.title}"`);
         }
 
         const lore = item.lore;
+        const clickType = `${mode === 1 ? 'Shift-' : ''}${mouseButton === 1 ? 'Right' : 'Left'} Click`;
         console.log(`[GUI] Clicking item: ${item.displayName}`);
+        console.log(`  Action: ${clickType}`);
         console.log(`  Material: ${item.name}`);
         console.log(`  Slot: ${item.slot}`);
         if (lore.length > 0) {
             console.log(`  Lore: ${lore.join(' | ')}`);
         }
 
-        await this.bot.clickWindow(item.slot, 0, 0);
+        await this.bot.clickWindow(item.slot, mouseButton, mode);
     }
 }
 
