@@ -77,12 +77,13 @@ plugwright {
 ## Configuration Options
 
 <ParamField path="minecraftVersion" type="Property<String>" required>
-  The Minecraft version to use for testing. Default is `"1.19.4"`.
+  The Minecraft version to use for testing. Default is `"1.19.4"`. Bots support 1.8 to 26.3 (1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, 1.20, 1.21, 1.21.9, 1.21.11, 26.1, 26.2, 26.3); 26.2 and 26.3 need the runner built against the PCX-Network forks (`3.1.0-pcx.x`).
 </ParamField>
 
 ```kotlin
 minecraftVersion.set("1.19.4")
 minecraftVersion.set("1.20.1")
+minecraftVersion.set("26.3")
 ```
 
 <ParamField path="runDir" type="DirectoryProperty">
