@@ -131,6 +131,17 @@ abstract class PaperProvisionTask : DefaultTask() {
                 lines.add("spawn-protection=0")
             }
 
+            // Minecraft 26.3 writes white-list=true into a fresh server.properties; test bots are
+            // never on the whitelist, so keep it off like the other properties above.
+            val hasWhiteList = lines.any { it.trim().startsWith("white-list=") }
+            if (hasWhiteList) {
+                lines = lines.map { line ->
+                    if (line.trim().startsWith("white-list=")) "white-list=false" else line
+                }.toMutableList()
+            } else {
+                lines.add("white-list=false")
+            }
+
             // Enable RCON so the runner can send commands over a proper protocol
             val rconProperties = mapOf(
                 "enable-rcon" to "true",
@@ -150,10 +161,10 @@ abstract class PaperProvisionTask : DefaultTask() {
 
             Files.write(serverProperties.toPath(), lines)
         } else {
-            logger.lifecycle("Creating server.properties with online-mode=false, connection-throttle=0, spawn-protection=0, enable-rcon=true and server-port=${port.get()}")
+            logger.lifecycle("Creating server.properties with online-mode=false, connection-throttle=0, spawn-protection=0, white-list=false, enable-rcon=true and server-port=${port.get()}")
             Files.write(
                 serverProperties.toPath(),
-                listOf("online-mode=false", "connection-throttle=0", "spawn-protection=0", "server-port=${port.get()}", "enable-rcon=true", "rcon.port=${rconPort.get()}", "rcon.password=${rconPassword.get()}")
+                listOf("online-mode=false", "connection-throttle=0", "spawn-protection=0", "white-list=false", "server-port=${port.get()}", "enable-rcon=true", "rcon.port=${rconPort.get()}", "rcon.password=${rconPassword.get()}")
             )
         }
 
@@ -229,7 +240,9 @@ abstract class PaperProvisionTask : DefaultTask() {
                 throw GradleException("No builds found for Minecraft version $version")
             }
 
-            val latestBuild = buildsArray.last().asInt
+            // fill v3 lists builds newest first, so the last element is the oldest (e.g. build 3 of
+            // 26.3, an early experimental one); take the highest number instead of relying on order.
+            val latestBuild = buildsArray.maxOf { it.asInt }
             logger.lifecycle("Found latest build: $latestBuild")
 
             val buildInfoUrl = "https://fill.papermc.io/v3/projects/paper/versions/$version/builds/$latestBuild"
