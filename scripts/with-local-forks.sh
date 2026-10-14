@@ -7,7 +7,7 @@
 #   scripts/with-local-forks.sh [--forks-dir DIR] <command...>
 #
 # DIR (default: the directory containing this repo) must hold checkouts named minecraft-data,
-# node-minecraft-protocol and mineflayer, each with the pinned commit checked out as HEAD:
+# node-minecraft-protocol, prismarine-chunk and mineflayer, each with the pinned commit checked out as HEAD:
 # npm clones a pinned commit from a local path only when it is the advertised HEAD.
 set -euo pipefail
 
@@ -26,7 +26,7 @@ trap 'rm -f "$CONFIG"' EXIT
 if [[ -f "${GIT_CONFIG_GLOBAL:-$HOME/.gitconfig}" ]]; then
     printf '[include]\n\tpath = %s\n' "${GIT_CONFIG_GLOBAL:-$HOME/.gitconfig}" >> "$CONFIG"
 fi
-for repo in minecraft-data node-minecraft-protocol mineflayer; do
+for repo in minecraft-data node-minecraft-protocol prismarine-chunk mineflayer; do
     if [[ ! -d "$FORKS_DIR/$repo/.git" ]]; then
         echo "with-local-forks: $FORKS_DIR/$repo is not a git checkout" >&2
         exit 1
