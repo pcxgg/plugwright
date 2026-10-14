@@ -16,22 +16,22 @@ The runner is published as <code>@plugwright/runner</code> from 3.0 onwards; <co
 See the full <a href="https://plugwright.dev/migration-v3">v2 to v3 Migration Guide</a> for layout changes, configuration updates, and new features.
 </details>
 
-## PCX-Network fork (3.1.0-pcx.x)
+## pcxgg fork (3.1.0-pcx.x)
 
-This branch (`pcx/26.3`) builds the runner against PCX-Network forks of the PrismarineJS bot
+This branch (`pcx/26.3`) builds the runner against pcxgg forks of the PrismarineJS bot
 stack so bots can join Minecraft 26.2 and 26.3 (protocol 776/777) servers, which the published
 `mineflayer` 4.39.0 / `minecraft-protocol` 1.68.0 / `minecraft-data` 3.117.0 do not support yet.
 `runner-package/package.json` pins them by commit:
 
 | Package | Source |
 |---|---|
-| `mineflayer` | `github:PCX-Network/mineflayer#<sha>` (dependency) |
-| `minecraft-protocol` | `github:PCX-Network/node-minecraft-protocol#<sha>` (override) |
-| `minecraft-data` | `github:PCX-Network/minecraft-data#<sha>` (override; the fork ships the node loader so it installs straight from git) |
-| `prismarine-chunk` | `github:PCX-Network/prismarine-chunk#<sha>` (override; PCX-Network fork of the head of PrismarineJS/prismarine-chunk#334, 26.2/26.3 chunks and byte-array light masks) |
+| `mineflayer` | `github:pcxgg/mineflayer#<sha>` (dependency) |
+| `minecraft-protocol` | `github:pcxgg/node-minecraft-protocol#<sha>` (override) |
+| `minecraft-data` | `github:pcxgg/minecraft-data#<sha>` (override; the fork ships the node loader so it installs straight from git) |
+| `prismarine-chunk` | `github:pcxgg/prismarine-chunk#<sha>` (override; pcxgg fork of the head of PrismarineJS/prismarine-chunk#334, 26.2/26.3 chunks and byte-array light masks) |
 
 The overrides make every nested copy (prismarine-registry, prismarine-block, ...) resolve to
-the same packages. Once those commits are pushed to the PCX-Network forks the usual commands
+the same packages. Once those commits are pushed to the pcxgg forks the usual commands
 work unchanged:
 
 ```bash
@@ -41,7 +41,7 @@ npm run install:packages && npm run build:packages
 Before they are pushed, or to try local changes to the forks, check them out next to this
 repository (`../minecraft-data`, `../node-minecraft-protocol`, `../prismarine-chunk`, `../mineflayer`, each with the
 pinned commit as `HEAD`) and run npm through `scripts/with-local-forks.sh`, which points git at
-those checkouts for the `github:PCX-Network/...` URLs (npm still records the GitHub URLs, so
+those checkouts for the `github:pcxgg/...` URLs (npm still records the GitHub URLs, so
 the lockfile it writes is the one to commit):
 
 ```bash

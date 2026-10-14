@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "mineflayer": "github:PCX-Network/mineflayer#17bc911748f7121c36441597ee9d0a8f2b1c6077",
+    "mineflayer": "github:pcxgg/mineflayer#cc8f356374a1511549d33949ff4979f46923d5e7",
     "picocolors": "^1.1.1",
     "prismarine-auth": "^3.1.1",
     "source-map-support": "^0.5.21"
@@ -57,8 +57,8 @@
     "access": "public"
   },
   "overrides": {
-    "minecraft-data": "github:PCX-Network/minecraft-data#e88f978cc3e63d90cf386d0840b2e16479c6f962",
-    "minecraft-protocol": "github:PCX-Network/node-minecraft-protocol#8298cf162f7ca20d892390e1f15f81ea462ff025",
-    "prismarine-chunk": "github:PCX-Network/prismarine-chunk#7382b4fef1c56290524665e7b9af58b7d1f34791"
+    "minecraft-data": "github:pcxgg/minecraft-data#c058fb53243104afe7e200110625285fc7203c79",
+    "minecraft-protocol": "github:pcxgg/node-minecraft-protocol#5659674a54e5b5dc726d0ac1d6b8de7de723bdb7",
+    "prismarine-chunk": "github:pcxgg/prismarine-chunk#7382b4fef1c56290524665e7b9af58b7d1f34791"
   }
 }

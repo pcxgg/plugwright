@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Runs a command (usually an npm install) with git redirected from the PCX-Network forks on
-# GitHub to local checkouts, so the github:PCX-Network/...#<sha> pins in runner-package resolve
+# Runs a command (usually an npm install) with git redirected from the pcxgg forks on
+# GitHub to local checkouts, so the github:pcxgg/...#<sha> pins in runner-package resolve
 # before those commits are pushed. npm records the same git+ssh://git@github.com/... resolved
 # URLs it would after a push, so the lockfile it writes is the one to commit.
 #
@@ -32,7 +32,7 @@ for repo in minecraft-data node-minecraft-protocol prismarine-chunk mineflayer; 
         exit 1
     fi
     printf '[url "file://%s/%s"]\n' "$FORKS_DIR" "$repo" >> "$CONFIG"
-    for prefix in "https://github.com/PCX-Network/$repo" "ssh://git@github.com/PCX-Network/$repo" "git@github.com:PCX-Network/$repo"; do
+    for prefix in "https://github.com/pcxgg/$repo" "ssh://git@github.com/pcxgg/$repo" "git@github.com:pcxgg/$repo"; do
         printf '\tinsteadOf = %s.git\n\tinsteadOf = %s\n' "$prefix" "$prefix" >> "$CONFIG"
     done
 done
